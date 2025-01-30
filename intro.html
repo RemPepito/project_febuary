@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFD1DC, #FF69B4);
+            font-family: 'Caveat', cursive;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .message {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.4);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-out forwards,
+                       bounce 2s ease infinite;
+        }
+
+        .text {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3em;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid;
+            width: 0;
+            animation: typing 3.5s steps(40, end) forwards,
+                       blink .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FF6B6B"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            background-size: contain;
+            animation: float 2s ease-in-out infinite alternate;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        /* Add transition overlay */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FFD1DC, #FF69B4);
+            transform: translateX(100%);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Add heart transition effect */
+        .transition-heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 100px;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFFFFF"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            background-size: contain;
+            z-index: 1001;
+            opacity: 0;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <div class="text">Hehe just wanna ask by your OA bf 💝</div>
+    </div>
+
+    <div class="transition-overlay"></div>
+    <div class="transition-heart"></div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                document.body.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Redirect to valentine.html after animation
+        setTimeout(() => {
+            const overlay = document.querySelector('.transition-overlay');
+            const heart = document.querySelector('.transition-heart');
+            
+            // Start transition
+            overlay.style.animation = 'slideIn 1s ease-in-out forwards';
+            heart.style.animation = 'heartBeat 1s ease-in-out forwards';
+            
+            // After transition completes, redirect
+            setTimeout(() => {
+                window.location.href = 'valentine.html';
+            }, 1000);
+        }, 5000); // Start transition after 5 seconds
+    </script>
+</body>
+</html>
